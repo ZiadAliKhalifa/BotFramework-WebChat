@@ -1,0 +1,70 @@
+{
+  "name": "botframework-webchat-root",
+  "version": "4.8.1-0",
+  "private": true,
+  "files": [
+    "lib/**/*"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/BotFramework-WebChat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/BotFramework-WebChat/issues"
+  },
+  "homepage": "https://github.com/microsoft/BotFramework-WebChat#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged --no-stash"
+    }
+  },
+  "keywords": [],
+  "scripts": {
+    "bootstrap": "lerna bootstrap --ci",
+    "build": "lerna run --ignore playground --stream build",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "eslint": "lerna run --parallel --stream eslint",
+    "posteslint": "npm run prettier-readmes",
+    "prettier-readmes": "prettier --write **/**/*.md --tab-width 3 --single-quote true",
+    "start": "concurrently --kill-others --raw \"serve\" \"serve -p 5001 -c __tests__/html/serve.json __tests__/html\" \"lerna run --ignore playground --parallel --stream start\"",
+    "tableflip": "npx lerna clean --yes --concurrency 8 && npx rimraf node_modules && npm ci && npm run bootstrap -- --concurrency 8",
+    "test": "jest --watch",
+    "test:ci": "npm run test -- --ci --coverage true --no-watch",
+    "watch": "echo NPM script \"watch\" has been replaced with \"start\"."
+  },
+  "devDependencies": {
+    "@azure/storage-blob": "^12.1.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@babel/runtime": "^7.8.7",
+    "abort-controller": "^3.0.0",
+    "babel-jest": "^25.1.0",
+    "concurrently": "^5.1.0",
+    "core-js": "^3.6.4",
+    "cross-env": "^7.0.2",
+    "get-port": "^5.1.1",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "jest-image-snapshot": "^2.12.0",
+    "jest-junit": "^10.0.0",
+    "jest-trx-results-processor": "^2.0.0",
+    "lerna": "^3.20.2",
+    "lint-staged": "^10.1.1",
+    "lolex": "^5.1.2",
+    "node-fetch": "^2.6.0",
+    "p-defer": "^3.0.0",
+    "prettier": "^1.19.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "selenium-webdriver": "^4.0.0-alpha.7",
+    "serve": "^11.3.0",
+    "serve-handler": "^6.1.2"
+  },
+  "dependencies": {}
+}

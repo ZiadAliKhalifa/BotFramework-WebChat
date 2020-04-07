@@ -1,0 +1,71 @@
+module.exports = {
+  collectCoverageFrom: [
+    '<rootDir>/packages/*/src/**/*.{js,jsx,ts,tsx}',
+    '!<rootDir>/*.{spec,test}.{js,jsx,ts,tsx}',
+    '!<rootDir>/*.json',
+    '!<rootDir>/node_modules/**',
+    '!<rootDir>/packages/playground/**',
+    '!<rootDir>/samples/**'
+  ],
+  coverageReporters: ['json', 'lcov', 'text-summary', 'clover', 'cobertura'],
+  globals: {
+    npm_package_version: '0.0.0-0.jest'
+  },
+  moduleDirectories: ['node_modules', 'packages'],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        ancestorSeparator: ' › ',
+        classNameTemplate: '{filepath}',
+        includeConsoleOutput: true,
+        outputDirectory: 'coverage',
+        suiteName: 'BotFramework-WebChat',
+        titleTemplate: ({ classname, filename, title }) =>
+          [filename, classname, title]
+            .map(value => (value || '').trim())
+            .filter(value => value)
+            .join(' › ')
+      }
+    ],
+    [
+      'jest-trx-results-processor',
+      {
+        outputFile: 'coverage/result.trx',
+        postProcessTestResult: [
+          (testSuiteResult, testResult, testResultNode) => {
+            testResult.failureMessages.forEach(message => {
+              const match = /^See diff for details: (.*)/m.exec(message);
+
+              match &&
+                testResultNode
+                  .ele('ResultFiles')
+                  .ele('ResultFile')
+                  .att('path', match[1]);
+            });
+          }
+        ]
+      }
+    ]
+  ],
+  setupFilesAfterEnv: [
+    '<rootDir>/__tests__/setup/preSetupTestFramework.js',
+    '<rootDir>/__tests__/setup/setupImageSnapshot.js',
+    '<rootDir>/__tests__/setup/setupTimeout.js',
+    '<rootDir>/__tests__/html/__jest__/setupRunHTMLTest.js'
+  ],
+  testPathIgnorePatterns: [
+    '<rootDir>/__tests__/html/assets',
+    '<rootDir>/__tests__/html/__dist__',
+    '<rootDir>/__tests__/html/__jest__',
+    '<rootDir>/__tests__/setup/',
+    '<rootDir>/packages/directlinespeech/__tests__/utilities/',
+    '<rootDir>/packages/playground/',
+    '<rootDir>/samples/'
+  ],
+  transform: {
+    '\\.[jt]sx?$': './babel-jest-config.js'
+  }
+};

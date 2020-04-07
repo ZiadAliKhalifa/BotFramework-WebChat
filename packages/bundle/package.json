@@ -1,0 +1,85 @@
+{
+  "name": "botframework-webchat",
+  "version": "0.0.0-0",
+  "description": "A highly-customizable web-based chat client for Azure Bot Services.",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsoft/BotFramework-WebChat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/microsoft/BotFramework-WebChat/issues"
+  },
+  "homepage": "https://github.com/microsoft/BotFramework-WebChat/#readme",
+  "scripts": {
+    "build": "npm run build:typescript && npm run build:babel && npm run build:webpack",
+    "build:babel": "babel src --extensions .js,.ts,.tsx --ignore **/*.spec.js,**/*.spec.ts,**/*.spec.tsx,**/*.test.js,**/*.test.ts,**/*.test.tsx,__tests__/**/*.js,__tests__/**/*.ts,__tests__/**/*.tsx --out-dir lib --verbose",
+    "build:typescript": "tsc --project src/tsconfig.json",
+    "build:webpack": "webpack-cli",
+    "eslint": "eslint src/**/*.js src/**/*.ts",
+    "prestart": "npm run build:babel",
+    "start": "concurrently --kill-others --names \"babel,tsc,webpack\" \"npm run start:babel\" \"npm run start:typescript\" \"npm run start:webpack\"",
+    "start:babel": "npm run build:babel -- --skip-initial-build --watch",
+    "start:typescript": "npm run build:typescript -- --watch",
+    "start:webpack": "npm run build:webpack -- --watch"
+  },
+  "dependencies": {
+    "@babel/runtime": "7.8.7",
+    "adaptivecards": "1.2.5",
+    "botframework-directlinejs": "^0.11.6",
+    "botframework-directlinespeech-sdk": "0.0.0-0",
+    "botframework-webchat-component": "0.0.0-0",
+    "botframework-webchat-core": "0.0.0-0",
+    "core-js": "3.6.4",
+    "markdown-it": "10.0.0",
+    "markdown-it-attrs": "3.0.2",
+    "markdown-it-attrs-es5": "1.0.0",
+    "markdown-it-for-inline": "0.1.1",
+    "memoize-one": "5.1.1",
+    "microsoft-cognitiveservices-speech-sdk": "1.9.1",
+    "prop-types": "15.7.2",
+    "sanitize-html": "1.20.0",
+    "url-search-params-polyfill": "8.0.0",
+    "web-speech-cognitive-services": "6.3.0",
+    "whatwg-fetch": "3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/node": "^12.12.18",
+    "@types/react": "16.8.25",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "concurrently": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "isomorphic-react": "^0.0.0-0",
+    "isomorphic-react-dom": "^0.0.0-0",
+    "prettier": "^1.19.1",
+    "source-map-loader": "^0.2.4",
+    "terser-webpack-plugin": "^2.3.5",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-stats-plugin": "^0.3.1"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
